@@ -10,7 +10,7 @@ namespace PlayGround
         {
             Console.WriteLine("Minimum window substrin containing all the character of the pattern");
 
-            var res= MinWindowStr("ADOBECODEBANC", "ABC");
+            var res= MinWindowStr("ADOBECODEBANC", "AABC");
             Console.WriteLine(res);
             Console.ReadLine();
         }
