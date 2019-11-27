@@ -57,4 +57,17 @@ namespace PlayGround
             this.Left = this.Right = null;
         }
     }
+
+    class LLNode<T>
+    {
+        public T Data;
+        public LLNode<T> Previous;
+        public LLNode<T> Next;
+
+        public LLNode(T data)
+        {
+            this.Data = data;
+            this.Previous = this.Next = null;
+        }
+    }
 }

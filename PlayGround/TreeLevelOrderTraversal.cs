@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Text;
 
 namespace PlayGround
@@ -11,6 +12,96 @@ namespace PlayGround
         {
             Console.WriteLine("Level order traversal of a tree");
 
+            var root = GetCharTree();
+            var introot = GetIntTree();
+
+           // Console.WriteLine(LCA(introot, 6, 10).Data);
+            //Console.WriteLine("Print Ancestor of a node");
+            //PrintAncestors(introot, 10);
+            PrintVerticalSumOfNodes(introot);
+
+            //LevelOrderTraversal(root);
+            //LevelOrderTraversalRecursion(root);
+            //var height = Height(root);
+            //Console.WriteLine(height);
+            //Console.WriteLine(HeightIterative(root));
+            // SpiralTraversal(root);
+            Console.ReadLine();
+        }
+
+        static bool PrintAncestors(Node<int> node, int target)
+        {
+            /* base cases */
+            if (node == null)
+            {
+                return false;
+            }
+
+            if (node.Data == target)
+            {
+                //Console.Write(node.Data + " ");
+                return true;
+            }
+
+            /* If target is present in either left or right subtree  
+            of this node, then print this node */
+            if (PrintAncestors(node.Left, target)
+            || PrintAncestors(node.Right, target))
+            {
+                Console.Write(node.Data + " ");
+                return true;
+            }
+
+            /* Else return false */
+            return false;
+        }
+
+        static void PrintVerticalSumOfNodes(Node<int> root)
+        {
+            var llnode = new LLNode<int>(0);
+
+            VerticalSumUtil(root, llnode);
+            while (llnode.Previous !=null)
+            {
+                llnode = llnode.Previous;
+            }
+
+            while (llnode != null)
+            {
+                Console.WriteLine(llnode.Data);
+                llnode = llnode.Next;
+            }
+        }
+
+        static void VerticalSumUtil(Node<int> node, LLNode<int> llnode)
+        {
+            llnode.Data = llnode.Data + node.Data;
+
+            if (node.Left != null)
+            {
+                if (llnode.Previous == null)
+                {
+                    llnode.Previous = new LLNode<int>(0);
+                    llnode.Previous.Next = llnode;
+                }
+
+                VerticalSumUtil(node.Left, llnode.Previous);
+            }
+
+            if (node.Right != null)
+            {
+                if (llnode.Next == null)
+                {
+                    llnode.Next = new LLNode<int>(0);
+                    llnode.Next.Previous = llnode;
+                }
+
+                VerticalSumUtil(node.Right, llnode.Next);
+            }
+        }
+
+        static Node<char> GetCharTree()
+        {
             Node<char> root = new Node<char>('a');
             root.Left = new Node<char>('b');
             root.Right = new Node<char>('c');
@@ -22,13 +113,39 @@ namespace PlayGround
             root.Right.Left.Right.Left = new Node<char>('i');
             root.Right.Left.Right.Right = new Node<char>('j');
 
-            //LevelOrderTraversal(root);
-            //LevelOrderTraversalRecursion(root);
-            //var height = Height(root);
-            //Console.WriteLine(height);
-            //Console.WriteLine(HeightIterative(root));
-            SpiralTraversal(root);
-            Console.ReadLine();
+            return root;
+        }
+        static Node<int> GetIntTree()
+        {
+            Node<int> root = new Node<int>(5);
+            root.Left = new Node<int>(2);
+            root.Right = new Node<int>(8);
+            root.Left.Left = new Node<int>(1);
+            root.Right.Left = new Node<int>(6);
+            root.Right.Right = new Node<int>(10);
+            root.Right.Left.Left = new Node<int>(4);
+            root.Right.Left.Right = new Node<int>(7);
+            root.Right.Left.Right.Left = new Node<int>(4);
+            root.Right.Left.Right.Right = new Node<int>(6);
+
+            return root;
+        }
+
+        static Node<int> LCA(Node<int> node, int n1, int n2)
+        {
+            if (node == null)
+                return null;
+
+            if (node.Data == n1 || node.Data == n2)
+                return node;
+
+            var leftLCA = LCA(node.Left, n1, n2);
+            var rightLCA = LCA(node.Right, n1, n2);
+
+            if (leftLCA != null && rightLCA != null)
+                return node;
+
+            return leftLCA != null ? leftLCA : rightLCA;
         }
 
         static void LevelOrderTraversal(Node<char> root)
