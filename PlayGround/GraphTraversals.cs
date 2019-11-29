@@ -9,26 +9,31 @@ namespace PlayGround
         public static void Main()
         {
             Console.WriteLine("Graph");
-
-            var graph = new Graph(4);
+            var verticesCount = 3;
+            var graph = new Graph(verticesCount);
             graph.AddEdge(0, 1);
             graph.AddEdge(1, 0);
             graph.AddEdge(0, 2);
             graph.AddEdge(2, 0);
-            graph.AddEdge(0, 3);
-            graph.AddEdge(3, 0);
+
             graph.AddEdge(1, 2);
             graph.AddEdge(2, 1);
-            graph.AddEdge(1, 3);
-            graph.AddEdge(3, 1);
-            graph.AddEdge(2, 3);
-            graph.AddEdge(3, 2);
+            //graph.AddEdge(0, 3);
+            //graph.AddEdge(3, 0);
+
+            //graph.AddEdge(1, 3);
+            //graph.AddEdge(3, 1);
+            //graph.AddEdge(2, 3);
+            //graph.AddEdge(3, 2);
 
             graph.PrintAdjMatrix();
+            var pathList = new List<int>();
+            pathList.Add(0);
+            graph.DFSAllPaths(0, new bool[verticesCount], verticesCount-1, pathList);
 
-            graph.DFS(0);
-            graph.DFS(1);
-            graph.DFS(2);
+            //graph.DFS(0);
+            //graph.DFS(1);
+            //graph.DFS(2);
 
             Console.ReadLine();
         }
@@ -68,6 +73,28 @@ namespace PlayGround
         public void AddEdge(int s, int d)
         {
             this.AdjacencyList[s].Add(d);
+        }
+
+        public void DFSAllPaths(int s, bool[] visited, int minPath, List<int> localPathList)
+        {
+            //bool[] visited = new bool[this.Vertices];
+            if (localPathList.Count >= minPath)
+            {
+                Console.WriteLine(string.Join("->", localPathList));
+                return;
+            }
+            visited[s] = true;
+            //localPathList.Add(s);
+            foreach (var i in this.AdjacencyList[s])
+            {
+                if (!visited[i])
+                {
+                    localPathList.Add(i);
+                    DFSAllPaths(i, visited, minPath, localPathList);
+                    localPathList.Remove(i);
+                }
+            }
+            visited[s] = false;
         }
 
         public void DFS(int s)
