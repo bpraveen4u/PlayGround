@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Threading;
 
 namespace PlayGround
 {
@@ -11,7 +12,8 @@ namespace PlayGround
         {
             Console.WriteLine("Mobile number to string conversion");
 
-            MobileNoToString("234");
+            //MobileNoToString("234");
+            AllPermutations("AABBBC");
 
             Console.ReadLine();
         }
@@ -36,6 +38,70 @@ namespace PlayGround
             {
                 result[current] = numToString[i];
                 MobileNoToStringUtil(number, current + 1, result);
+            }
+        }
+
+        static void Iterative(string number)
+        {
+            char[] result = new char[number.Length];
+            for (int j = 0; j < number.Length; j++)
+            {
+                var numToString = map[number[j]];
+                for (int i = 0; i < numToString.Length; i++)
+                {
+                    result[j] = numToString[i];
+                    //MobileNoToStringUtil(number, current + 1, result);
+                }
+            }
+        }
+
+        static void AllPermutations(string input)
+        {
+            Dictionary<char, int> map = new Dictionary<char, int>();
+            foreach (char item in input)
+            {
+                if (map.ContainsKey(item))
+                {
+                    map[item] = map[item] + 1;
+                }
+                else
+                {
+                    map[item] = 1;
+                }
+            }
+
+            char[] str = new char[map.Count];
+            int[] count = new int[map.Count];
+            int index = 0;
+            foreach (var c in map)
+            {
+                str[index] = c.Key;
+                count[index] = c.Value;
+                index++;
+            }
+
+            AllPermutationUtil(new string(str), count, 0, new char[input.Length]);
+        }
+
+        static void AllPermutationUtil(string str, int[] count, int current, char[] result)
+        {
+            if (result.Length == current)
+            {
+                Console.WriteLine(new string(result));
+                return;
+            }
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (count[i] == 0)
+                {
+                    continue;
+                }
+
+                result[current] = str[i];
+                count[i]--;
+                AllPermutationUtil(str, count, current + 1, result);
+                count[i]++;
             }
         }
     }
