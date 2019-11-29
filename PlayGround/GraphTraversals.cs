@@ -9,7 +9,7 @@ namespace PlayGround
         public static void Main()
         {
             Console.WriteLine("Graph");
-            var verticesCount = 3;
+            var verticesCount = 4;
             var graph = new Graph(verticesCount);
             graph.AddEdge(0, 1);
             graph.AddEdge(1, 0);
@@ -18,19 +18,21 @@ namespace PlayGround
 
             graph.AddEdge(1, 2);
             graph.AddEdge(2, 1);
-            //graph.AddEdge(0, 3);
-            //graph.AddEdge(3, 0);
+            graph.AddEdge(0, 3);
+            graph.AddEdge(3, 0);
 
-            //graph.AddEdge(1, 3);
-            //graph.AddEdge(3, 1);
-            //graph.AddEdge(2, 3);
-            //graph.AddEdge(3, 2);
+            graph.AddEdge(1, 3);
+            graph.AddEdge(3, 1);
+            graph.AddEdge(2, 3);
+            graph.AddEdge(3, 2);
 
-            graph.PrintAdjMatrix();
+            //graph.PrintAdjMatrix();
             var pathList = new List<int>();
-            pathList.Add(0);
-            graph.DFSAllPaths(0, new bool[verticesCount], verticesCount-1, pathList);
+            pathList.Add(1);
+            Console.WriteLine("\nDFS All Paths\n");
+            graph.DFSAllPaths(1, new bool[verticesCount], verticesCount-1, pathList);
 
+            //graph.BFS(0);
             //graph.DFS(0);
             //graph.DFS(1);
             //graph.DFS(2);
@@ -75,33 +77,61 @@ namespace PlayGround
             this.AdjacencyList[s].Add(d);
         }
 
-        public void DFSAllPaths(int s, bool[] visited, int minPath, List<int> localPathList)
+        public void DFSAllPaths(int startVertex, bool[] visited, int minPath, List<int> localPathList)
         {
-            //bool[] visited = new bool[this.Vertices];
             if (localPathList.Count >= minPath)
             {
                 Console.WriteLine(string.Join("->", localPathList));
-                return;
+                //return; //not required as we need to print all paths from given node
             }
-            visited[s] = true;
-            //localPathList.Add(s);
-            foreach (var i in this.AdjacencyList[s])
+            visited[startVertex] = true;
+            
+            foreach (var adjVertex in this.AdjacencyList[startVertex])
             {
-                if (!visited[i])
+                if (!visited[adjVertex])
                 {
-                    localPathList.Add(i);
-                    DFSAllPaths(i, visited, minPath, localPathList);
-                    localPathList.Remove(i);
+                    localPathList.Add(adjVertex);
+                    DFSAllPaths(adjVertex, visited, minPath, localPathList);
+                    localPathList.Remove(adjVertex);
                 }
             }
-            visited[s] = false;
+            visited[startVertex] = false;
+        }
+
+        public void BFS(int startVertex)
+        {
+            Console.WriteLine("Breadth First Search");
+            if (startVertex < 0 || startVertex > this.Vertices)
+            {
+                Console.WriteLine("invalid start vertice");
+                return;
+            }
+            bool[] visited = new bool[this.Vertices];
+            Queue<int> queue = new Queue<int>();
+
+            visited[startVertex] = true;
+            queue.Enqueue(startVertex);
+            while (queue.Count != 0)
+            {
+                startVertex = queue.Dequeue();
+                Console.WriteLine("next->" + startVertex);
+                foreach (var adjVertex in this.AdjacencyList[startVertex])
+                {
+                    if (!visited[adjVertex])
+                    {
+                        visited[adjVertex] = true;
+                        queue.Enqueue(adjVertex);
+                    }
+                }
+            }
         }
 
         public void DFS(int s)
         {
+            Console.WriteLine("Depth First Search");
             if (s < 0 || s > this.Vertices - 1)
             {
-                Console.WriteLine("invalid vertices");
+                Console.WriteLine("invalid start vertice");
                 return;
             }
             bool[] visited = new bool[this.Vertices];
