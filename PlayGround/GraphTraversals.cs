@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace PlayGround
@@ -26,13 +27,21 @@ namespace PlayGround
             graph.AddEdge(2, 3);
             graph.AddEdge(3, 2);
 
-            //graph.PrintAdjMatrix();
+            graph.PrintAdjMatrix();
             var pathList = new List<int>();
             pathList.Add(1);
             Console.WriteLine("\nDFS All Paths\n");
-            graph.DFSAllPaths(1, new bool[verticesCount], verticesCount-1, pathList);
+            graph.DFSAllPaths(1, new bool[verticesCount], verticesCount - 1, pathList);
 
             //graph.BFS(0);
+            //Queue<int> queue = new Queue<int>();
+            //queue.Enqueue(0);
+            //graph.BFSRecursive(queue, new bool[verticesCount]);
+
+            //Console.WriteLine("DFS");
+            //graph.DFS(0);
+            //Console.WriteLine("DFS Recursive");
+            //graph.DFSRecursive(0, new bool[verticesCount]);
             //graph.DFS(0);
             //graph.DFS(1);
             //graph.DFS(2);
@@ -126,6 +135,27 @@ namespace PlayGround
             }
         }
 
+        public void BFSRecursive(Queue<int> queue, bool[] visited)
+        {
+            if (queue.Count == 0)
+            {
+                return;
+            }
+            var s = queue.Dequeue();
+            visited[s] = true;
+            Console.WriteLine("->" + s);
+            foreach (var edge in this.AdjacencyList[s])
+            {
+                if (!visited[edge])
+                {
+                    visited[edge] = true;
+                    queue.Enqueue(edge);
+                }
+            }
+
+            BFSRecursive(queue, visited);
+        }
+
         public void DFS(int s)
         {
             Console.WriteLine("Depth First Search");
@@ -151,6 +181,25 @@ namespace PlayGround
                         visited[i] = true;
                         stack.Push(i);
                     }
+                }
+            }
+        }
+
+        public void DFSRecursive(int s, bool[] visited)
+        {
+            if (s < 0 || s > this.Vertices)
+            {
+                return;
+            }
+
+            visited[s] = true;
+            Console.WriteLine("->" + s);
+
+            foreach (var edge in this.AdjacencyList[s])
+            {
+                if (!visited[edge])
+                {
+                    DFSRecursive(edge, visited);
                 }
             }
         }

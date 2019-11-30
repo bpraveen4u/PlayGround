@@ -13,7 +13,8 @@ namespace PlayGround
             Console.WriteLine("Mobile number to string conversion");
 
             //MobileNoToString("234");
-            AllPermutations("AABBBC");
+            //AllPermutations("AABBBC");
+            TowersProblem(4, "A", "B", "C");
 
             Console.ReadLine();
         }
@@ -102,6 +103,20 @@ namespace PlayGround
                 count[i]--;
                 AllPermutationUtil(str, count, current + 1, result);
                 count[i]++;
+            }
+        }
+        
+        static void TowersProblem(int n, string source, string dest, string aux)
+        {
+            if (n == 0)
+            {
+                return;
+            }
+            else
+            {
+                TowersProblem(n - 1, source, aux, dest);
+                Console.WriteLine("Move disk {0} from {1} to {2}", n, source, dest);
+                TowersProblem(n - 1, aux, dest, source);
             }
         }
     }
