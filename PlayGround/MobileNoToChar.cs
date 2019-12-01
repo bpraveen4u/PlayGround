@@ -13,8 +13,8 @@ namespace PlayGround
             Console.WriteLine("Mobile number to string conversion");
 
             //MobileNoToString("234");
-            //AllPermutations("AABBBC");
-            TowersProblem(4, "A", "B", "C");
+            AllPermutations("2356");
+            //TowersProblem(4, "A", "B", "C");
 
             Console.ReadLine();
         }
