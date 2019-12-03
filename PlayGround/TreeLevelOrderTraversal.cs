@@ -18,9 +18,9 @@ namespace PlayGround
            // Console.WriteLine(LCA(introot, 6, 10).Data);
             //Console.WriteLine("Print Ancestor of a node");
             //PrintAncestors(introot, 10);
-            PrintVerticalSumOfNodes(introot);
+            //PrintVerticalSumOfNodes(introot);
 
-            //LevelOrderTraversal(root);
+            LevelOrderTraversal(root);
             //LevelOrderTraversalRecursion(root);
             //var height = Height(root);
             //Console.WriteLine(height);
@@ -152,18 +152,29 @@ namespace PlayGround
         {
             Queue<Node<char>> queue = new Queue<Node<char>>();
             queue.Enqueue(root);
-
+            queue.Enqueue(null);//for new line in output
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
-                Console.Write(node.Data + " ");
-                if (node.Left != null)
+                if (node == null)
                 {
-                    queue.Enqueue(node.Left);
+                    Console.WriteLine();
+                    if (queue.Count > 0)
+                    {
+                        queue.Enqueue(null);//for new line in output
+                    }
                 }
-                if (node.Right != null)
+                else
                 {
-                    queue.Enqueue(node.Right);
+                    Console.Write(node?.Data + " ");
+                    if (node.Left != null)
+                    {
+                        queue.Enqueue(node.Left);
+                    }
+                    if (node.Right != null)
+                    {
+                        queue.Enqueue(node.Right);
+                    }
                 }
             }
         }
@@ -252,6 +263,7 @@ namespace PlayGround
             for (int i = 0; i < height; i++)
             {
                 LevelOrderRecursive(root, i + 1);
+                Console.WriteLine();
             }
         }
 
@@ -264,7 +276,7 @@ namespace PlayGround
 
             if (level == 1)
             {
-                Console.WriteLine(node.Data);
+                Console.Write(node.Data + " ");
                 return;
             }
 

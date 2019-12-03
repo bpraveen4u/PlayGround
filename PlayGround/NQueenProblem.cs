@@ -76,7 +76,7 @@ namespace PlayGround
                         return true;
                     }
                     //row = row - 1;
-                    positions[row] = new Position(0, 0);
+                    positions[row] = new Position(0, 0); // all solution not works refer below method
                 }
             }
 
