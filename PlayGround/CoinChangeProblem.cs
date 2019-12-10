@@ -165,7 +165,7 @@ namespace PlayGround
             /*
               Max ways to make change for 0 will be 1, doing nothing.
             */
-            dp[0,0] = 1;
+            dp[0, 0] = 1;
 
             for (int i = 1; i <= coins.Length; i++)
             {
@@ -173,7 +173,7 @@ namespace PlayGround
                   Set the subproblem for the amount of 0 to 1 when
                   solving this row
                 */
-                dp[i,0] = 1;
+                dp[i, 0] = 1;
 
                 for (int j = 1; j <= amount; j++)
                 {
@@ -186,7 +186,7 @@ namespace PlayGround
                       this coin can not contribute to the total # of ways to make change at this
                       sub problem target amount)
                     */
-                    int withoutThisCoin = dp[i - 1,j];
+                    int withoutThisCoin = dp[i - 1, j];
                     int withThisCoin = 0;
                     if (currentCoinValue <= j)
                     {
@@ -194,7 +194,7 @@ namespace PlayGround
                     }
                     //int withThisCoin = currentCoinValue <= j ? dp[i,j - currentCoinValue] : 0;
 
-                    dp[i,j] = withoutThisCoin + withThisCoin;
+                    dp[i, j] = withoutThisCoin + withThisCoin;
                 }
             }
 
@@ -203,7 +203,7 @@ namespace PlayGround
               we want to return as the answer
             */
             dp.Dump();
-            return dp[coins.Length,amount];
+            return dp[coins.Length, amount];
         }
     }
 }

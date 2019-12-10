@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PlayGround
 {
     class ChessGame
     {
+        public static void Main()
+        {
+            var p1 = new Player(new Person("a"), true, false);
+            var p2 = new Player(new Person("b"), false, false);
+            Game game = new Game(p1, p2);
+
+            game.PlayerMove(p1, 1, 4, 3, 4);
+        }
     }
 
     public abstract class Piece
@@ -222,7 +231,12 @@ namespace PlayGround
 
     public class Person
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+
+        public Person(string userId)
+        {
+            this.UserId = userId;
+        }
     }
 
     public class Player
@@ -234,8 +248,8 @@ namespace PlayGround
         public Player(Person person, bool isWhiteSide, bool isComputer)
         {
             this.player = person;
-            this.IsWhiteSide = IsWhiteSide;
-            this.IsComputer = IsComputer;
+            this.IsWhiteSide = isWhiteSide;
+            this.IsComputer = isComputer;
         }
     }
 
@@ -270,7 +284,7 @@ namespace PlayGround
 
     public class Game
     {
-        private Player[] players;
+        private Player[] players = new Player[2];
         private Board board;
         private Player currentTurn;
         
@@ -282,7 +296,7 @@ namespace PlayGround
         {
             this.players[0] = p1;
             this.players[1] = p2;
-
+            board = new Board();
             board.Initialize();
 
             if (p1.IsWhiteSide)
@@ -305,7 +319,7 @@ namespace PlayGround
             return this.MakeMove(move, player);
         }
 
-        public bool MakeMove(Move move, Player player)
+        private bool MakeMove(Move move, Player player)
         {
             Piece sourcePiece = move.Start.Piece;
             if (sourcePiece == null)

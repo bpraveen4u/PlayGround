@@ -19,7 +19,9 @@ namespace PlayGround
             }
             cache.Display();
             var get = cache.Get(15);
-            cache.Get(5);
+            Console.WriteLine("Get " + get);
+            get = cache.Get(5);
+            Console.WriteLine("Get " + get);
             cache.Display();
 
             cache.Put(16, 16);
