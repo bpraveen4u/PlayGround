@@ -15,8 +15,11 @@ namespace PlayGround
             var res = profit(values, len);
             Console.WriteLine(res);
             Console.WriteLine("DP");
-            res = profitDP(values, len);
+            //res = profitDP(values, len);
+            //Console.WriteLine(res);
+            res = profitDP(values);
             Console.WriteLine(res);
+
             Console.ReadLine();
         }
 
@@ -33,6 +36,7 @@ namespace PlayGround
 
         public static int profitDP(int[] value, int length)
         {
+            //not clear solution
             int[] solution = new int[length + 1];
             solution[0] = 0;
 
@@ -43,25 +47,28 @@ namespace PlayGround
                 {
                     max = Math.Max(max, value[j] + solution[i - (j + 1)]);
                     solution[i] = max;
-                    //solution.Dump();
                 }
+                Console.Write(i + ": ");
+                solution.Dump();
             }
-
+           
             solution.Dump();
             return solution[length];
         }
 
-        static int maxValue(int [] price)
+        static int profitDP(int [] price)
         {
-            var max = new int[price.Length + 1];
+            var val = new int[price.Length + 1];
             for (int i = 1; i <= price.Length; i++)
             {
                 for (int j = i; j <= price.Length; j++)
                 {
-                    max[j] = Math.Max(max[j], max[j - i] + price[i - 1]);
+                    val[j] = Math.Max(val[j], val[j - i] + price[i - 1]);
                 }
+                Console.Write(i + ": ");
+                val.Dump();
             }
-            return max[price.Length];
+            return val[price.Length];
         }
 
         static int maxValue1(int[] price)
