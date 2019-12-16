@@ -14,13 +14,16 @@ namespace PlayGround
 
             var root = GetCharTree();
             var introot = GetIntTree();
+            var completeTree = GetCompleteTree();
 
-           // Console.WriteLine(LCA(introot, 6, 10).Data);
+            Console.WriteLine(IsCompleteBinaryTree(completeTree));
+
+            // Console.WriteLine(LCA(introot, 6, 10).Data);
             //Console.WriteLine("Print Ancestor of a node");
             //PrintAncestors(introot, 10);
             //PrintVerticalSumOfNodes(introot);
 
-            LevelOrderTraversal(root);
+            //LevelOrderTraversal(root);
             //LevelOrderTraversalRecursion(root);
             //var height = Height(root);
             //Console.WriteLine(height);
@@ -61,7 +64,7 @@ namespace PlayGround
             var llnode = new LLNode<int>(0);
 
             VerticalSumUtil(root, llnode);
-            while (llnode.Previous !=null)
+            while (llnode.Previous != null)
             {
                 llnode = llnode.Previous;
             }
@@ -127,6 +130,15 @@ namespace PlayGround
             root.Right.Left.Right = new Node<int>(7);
             root.Right.Left.Right.Left = new Node<int>(4);
             root.Right.Left.Right.Right = new Node<int>(6);
+
+            return root;
+        }
+
+        static Node<int> GetCompleteTree()
+        {
+            Node<int> root = new Node<int>(5);
+            root.Left = new Node<int>(2);
+            root.Right = new Node<int>(8);
 
             return root;
         }
@@ -304,6 +316,40 @@ namespace PlayGround
                     return rh + 1;
                 }
             }
+        }
+
+        static int NodeCount(Node<int> root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+
+            return 1 + NodeCount(root.Left) + NodeCount(root.Right);
+        }
+
+        static bool IsCompleteBinaryTree(Node<int> root)
+        {
+            int nodeCount = NodeCount(root);
+
+            return IsCompleteUtil(root, 0, nodeCount);
+        }
+
+        static bool IsCompleteUtil(Node<int> node, int nodeIndex, int totalCount)
+        {
+            if (node == null)
+            {
+                return true;
+            }
+
+            if (nodeIndex >= totalCount)
+            {
+                return false;
+            }
+
+            var leftIndex = 2 * nodeIndex + 1;
+            var rightIndex = 2 * nodeIndex + 2;
+            return IsCompleteUtil(node.Left, leftIndex, totalCount) && IsCompleteUtil(node.Right, rightIndex, totalCount);
         }
     }
 }
