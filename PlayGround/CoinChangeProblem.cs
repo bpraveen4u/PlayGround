@@ -16,7 +16,7 @@ namespace PlayGround
             //int topDownValue = MinCoinTopDown(total, coins, map);
             //int bottomUpValue = MinimumCoinBottomUp(total, coins);
             int count = 0;
-            CoinChangeSolutions(new List<int>(), total, coins, 0, ref count);
+            CoinChangeSolutions(coins, total, 0, new List<int>(), ref count);
             Console.WriteLine(count);
             CN(coins, total, 0, new List<int>());
             Console.WriteLine("DP");//same as knapsack problem
@@ -27,7 +27,7 @@ namespace PlayGround
             Console.ReadLine();
         }
 
-        static void CoinChangeSolutions(List<int> result, int total, int[] coins, int current, ref int count)
+        static void CoinChangeSolutions(int[] coins, int total, int current, List<int> result, ref int count)
         {
             if (total == 0)
             {
@@ -39,7 +39,7 @@ namespace PlayGround
                 if (total >= coins[i])
                 {
                     result.Add(coins[i]);
-                    CoinChangeSolutions(result, total - coins[i], coins, i, ref count);
+                    CoinChangeSolutions(coins, total - coins[i], i, result, ref count);
                     result.Remove(coins[i]);
                 }
             }
