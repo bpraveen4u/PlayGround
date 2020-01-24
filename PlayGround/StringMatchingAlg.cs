@@ -8,8 +8,8 @@ namespace PlayGround
     {
         public static void Main()
         {
-            //Console.WriteLine(KMP("AABAACAADAABAABA", "AADAA
-            AllSubs("abcd");
+            Console.WriteLine(KMP("AABAACAADAABAABA", "AADAA"));
+            //AllSubs("abcd");
             Console.ReadLine();
         }
 
@@ -73,9 +73,10 @@ namespace PlayGround
         {
             int[] lps = new int[pattern.Length];
             int index = 0;
-            for (int i = 1; i < pattern.Length;)
+            int i = 1;
+            while (i < pattern.Length)
             {
-                if (pattern[i] == pattern[index])
+                if (pattern[index] == pattern[i])
                 {
                     lps[i] = index + 1;
                     index++;
@@ -105,6 +106,7 @@ namespace PlayGround
             }
 
             var lps = ComputeTemporaryArray(pat);
+            lps.Dump();
             int i = 0;
             int j = 0;
             while (i < str.Length && j < pat.Length)
