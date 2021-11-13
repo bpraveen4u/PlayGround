@@ -4,11 +4,11 @@ using System.Text;
 
 namespace PlayGround
 {
-    class Class1 : Stack<char>
+    class Sta : Stack<char>
     {
     }
 
-    class Class2 : Queue<char>
+    class Q : Queue<char>
     {
     }
 
